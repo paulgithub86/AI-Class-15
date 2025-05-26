@@ -1,0 +1,6 @@
+pandas
+numpy
+seaborn
+scikit-learn
+tensorflow==2.*          # for titanic_tf.py
+torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu  # titanic_torch.py (CPU build)
