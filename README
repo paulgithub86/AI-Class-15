@@ -1,0 +1,103 @@
+# Titanic Survival – AI Framework Mini‑Project
+
+A lightweight repo that lets you compare TensorFlow/Keras, PyTorch, and Scikit‑learn on the same binary‑classification task (Titanic survival). 
+Each script is \~40 lines and uses identical preprocessing so the only variable is the framework.
+
+## Directory layout
+
+```text
+ai-tools-titanic/
+├── titanic_tf.py          # Keras model
+├── titanic_tf_tb.py       # Keras model with TensorBoard logging
+├── titanic_torch.py       # PyTorch model
+├── titanic_sklearn.py     # Scikit‑learn baseline
+├── requirements.txt       # Shared Python deps
+└── README.md              # (this file)
+```
+
+---
+
+## 1 · Local setup (macOS / Linux / Windows)
+
+> Prerequisite: Python ≥ 3.9.  GPU is *optional*—CPU runs fine.
+
+```bash
+# 1. clone your fork
+$ git clone https://github.com/<YOUR‑GH‑HANDLE>/ai-tools-titanic.git
+$ cd ai-tools-titanic
+
+# 2. create & activate a virtual environment
+$ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+
+# 3. install everything
+$ pip install -r requirements.txt
+
+# 4. run any script
+$ python titanic_tf_tb.py   # or titanic_tf.py / titanic_torch.py / titanic_sklearn.py
+```
+
+### Launching TensorBoard locally
+
+If you ran `titanic_tf_tb.py` a directory `logs/titanic/<timestamp>` is created.  Start TensorBoard from another terminal tab (or from the same shell after the script finishes):
+
+```bash
+$ tensorboard --logdir logs/titanic --port 6006
+```
+
+Open [http://localhost:6006](http://localhost:6006) in your browser → Scalars, Graphs, Histograms, …
+
+---
+
+## 2 · Running in Google Colab
+
+Colab already has TensorBoard and GPU drivers pre‑installed.  Three simple cells do the trick:
+
+```python
+# ⬇️  CELL 1 — clone + install
+!git clone https://github.com/<YOUR‑GH‑HANDLE>/ai-tools-titanic.git
+%cd ai-tools-titanic
+!pip install -r requirements.txt
+```
+
+```python
+# ⬇️  CELL 2 — train with TensorBoard logging
+!python titanic_tf_tb.py   # takes ~10 s on CPU, faster on GPU
+```
+
+```python
+# ⬇️  CELL 3 — launch TensorBoard *inside* Colab
+%load_ext tensorboard
+%tensorboard --logdir logs/titanic --port 0   # port 0 ⇒ colab picks an open port
+```
+
+Colab will embed the TensorBoard UI directly below the cell.
+
+> Tip: If you get “TensorBoard already running”, run `%tensorboard --stop` first or restart the kernel.
+
+---
+
+## 3 · Scripts at a glance
+
+| Script               | Framework            | Lines‑of‑code | Typical accuracy |
+| -------------------- | -------------------- | ------------- | ---------------- |
+| `titanic_tf.py`      | TensorFlow 2 + Keras |  \~40         | \~0.80           |
+| `titanic_tf_tb.py`   | TensorFlow 2 (+TB)   |  \~45         | \~0.80           |
+| `titanic_torch.py`   | PyTorch              |  \~40         | \~0.79           |
+| `titanic_sklearn.py` | Scikit‑learn RFC     |  \~35         | \~0.78           |
+
+*(Numbers are with the default random split & 20 epochs; small variations are normal.)*
+
+---
+
+## 4 · Key learning points
+
+* API surface: how each framework handles datasets, models, training loops.
+* Boiler‑plate vs. flexibility: PyTorch’s explicit loop vs. Keras’ `.fit()`.
+* Instrumentation: TensorBoard for deep‑learning workflows; Scikit‑learn uses built‑ins or third‑party tools.
+* Reproducibility: fixed random seeds, `requirements.txt`, single data split.
+
+---
+
+## 5 · License
+
+MIT – do whatever you want, just keep the attribution lines.
